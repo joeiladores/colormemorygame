@@ -19,11 +19,9 @@ function restartGame() {
 
 function todoSubmit() {
 
-  // DISPLAY AGAIN CURRENT BOX COLORS
   displayBoxUI(winningCombo);
   document.querySelector("#box-holder").style.visibility = "visible";
 
-  // COMPARE TWO ARRAYS
   if(winningCombo.toString() == answer.toString()) {
     document.getElementById("modalResultArea").innerHTML = "Congratulations. You win!";
   }
@@ -115,6 +113,7 @@ function displayRestartBtn() {
 }
 
 function hideTimer() {
+  document.querySelector("#timer").textContent = ""; 
   document.querySelector("#timer").style.display = 'none'; 
 }
 
@@ -130,6 +129,10 @@ function hideClearSubmitBtn() {
 function displayClearSubmitBtn() {
   document.querySelector("#clearBtn").style.visibility = 'visible';
   document.querySelector("#submitBtn").style.visibility = 'visible';
+}
+
+function hideStartBtn() {
+  document.querySelector("#startBtn").style.display = "none";
 }
 
 function displayBoxUI(rColors) {
@@ -149,30 +152,31 @@ function startGame() {
 
   let randomAnswerColors = [];
   const colors = ["blue", "red", "green", "yellow", "pink", "purple", "orange", "gray", "brown"];
-  let counter1 = 0;
+  let counter1 = 0, sec = 5, timer;
 
   const temp = getRandomColors(colors, 6);;
+  
   winningCombo = temp.map(items);
-
   function items(value) {
     return value;
   }
 
   randomAnswerColors = getRandomColors(temp, 6);
 
-  document.getElementById("startBtn").style.display = "none";
-  document.getElementById("timer").style.display = "block";
-
+  hideStartBtn();
+  displayTimer();
   displayBoxUI(winningCombo);
   
-  setTimeout(function(){
-    // TODO AFTER FIVE SECONDS
-    hideBoxUI();
-    displayTimer();
-    displayAnswerUI(randomAnswerColors);
-    
-  }, 5000);
-
+  timerId = setInterval(function() {
+    document.querySelector("#timer").innerHTML = sec;
+    sec--;
+    if(sec < 0) {
+      document.querySelector("#timer").innerHTML = "Time is up!";      
+      hideBoxUI();
+      displayAnswerUI(randomAnswerColors);
+      clearInterval(timerId);
+    }
+  }, 1000);  
 }
 
 

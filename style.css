@@ -17,9 +17,10 @@
 }
 
 .timerBox {
-  width: 100px;
+  width: 200px;
   height: 40px;
-  border: 1.5px solid lightslategray;
+  font-weight: bold;
+  /* border: 1.5px solid lightslategray; */
 }
 
 
